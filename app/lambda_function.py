@@ -3,7 +3,7 @@ import base64
 from app.src.point_query_use_case import execute
 
 
-def handler(event):
+def handler(event, context):
     try:
         username = extract_token(event)
         if not username:
