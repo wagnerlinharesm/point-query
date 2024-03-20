@@ -19,9 +19,9 @@ def handler(event, context):
         }
 
     matricula = body['matricula']
-    execute(matricula)
+    result = execute(matricula)
 
     return {
         'statusCode': 200,
-        'body': json.dumps({'message': f'Matrícula {matricula} processada com sucesso!'})
+        'body': json.dumps({'message': f'{result}'})
     }
