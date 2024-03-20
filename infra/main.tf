@@ -16,7 +16,12 @@ resource "aws_iam_role_policy" "point_query_policy" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = "secretsmanager:GetSecretValue"
+        Action   = [
+          "secretsmanager:GetSecretValue",
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
         Resource = "*"
       }
     ]
