@@ -1,6 +1,6 @@
 # from app.psycopg2 import connect
 import os
-from fetch_user_name_password import fetch_username_password
+from app.src.fetch_user_name_password import fetch_username_password
 
 
 def execute(matricula):
