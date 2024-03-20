@@ -3,8 +3,9 @@ from app.src.fetch_user_name_password import fetch_username_password
 import psycopg2
 
 
-def execute(matricula):
+def execute(id_funcionario):
     try:
+        # Obter nome de usuário e senha do segredo armazenado.
         username, password = fetch_username_password(os.getenv("DB_SECRET"))
         database = {
             'dbname': 'pointdb',
@@ -15,22 +16,22 @@ def execute(matricula):
         conn = psycopg2.connect(**database)
         cursor = conn.cursor()
 
-        query = """SELECT f.matricula, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
-        p.horas_trabalhadas, sp.descricao FROM funcionario f
-        INNER JOIN ponto p ON f.id_funcionario = p.id_funcionario
-        INNER JOIN periodo_ponto pp ON p.id_ponto = pp.id_ponto
-        INNER JOIN situacao_ponto sp ON p.id_situacao_ponto =
-        sp.id_situacao_ponto WHERE f.matricula = %s;"""
+        # Atualização da query para usar as colunas e tabelas conforme definido.
+        query = """SELECT f.id_funcionario, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
+                   p.horas_trabalhadas, sp.situacao FROM funcionario f
+                   INNER JOIN ponto p ON f.id_funcionario = p.id_funcionario
+                   INNER JOIN periodo_ponto pp ON p.id_ponto = pp.id_ponto
+                   INNER JOIN situacao_ponto sp ON p.id_situacao_ponto = sp.id_situacao_ponto
+                   WHERE f.id_funcionario = %s;"""
 
-        cursor.execute(query, (matricula,))
+        cursor.execute(query, (id_funcionario,))
         result = cursor.fetchall()
 
         cursor.close()
         conn.close()
 
-        print(result)
+        return result
 
-        return "result"
     except Exception as e:
-        print(f"Erro ao acessar banco de dados: {e}")
-        return []
+        print(f"Ocorreu um erro: {e}")
+        return None
