@@ -18,8 +18,18 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Generate Lambda ZIP
-        run: zip -r lambda_function.zip app
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -t ./package
+
+      - name: Prepare Lambda package
+        run: |
+          mkdir -p lambda_package
+          cp -R ./package/* lambda_package/
+          cp -r app/* lambda_package/
+          cd lambda_package
+          zip -r ../lambda_function.zip .
 
       - name: Copy Lambda ZIP to infra
         run: cp lambda_function.zip infra/lambda_function.zip
