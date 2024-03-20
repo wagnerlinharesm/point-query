@@ -1,5 +1,4 @@
 import json
-
 from app.src.point_query_use_case import execute
 
 
