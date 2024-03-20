@@ -1,17 +1,18 @@
 import os
 from app.src.fetch_user_name_password import fetch_username_password
-import pymysql
+import mysql.connector
+
 
 def execute(matricula):
     try:
         username, password = fetch_username_password(os.getenv("DB_SECRET"))
         database = {
-            'db': 'pointdb',
+            'database': 'pointdb',
             'user': username,
             'password': password,
             'host': os.getenv('DB_HOST')
         }
-        conn = pymysql.connect(**database)  # Mudança na forma de conexão
+        conn = mysql.connector.connect(**database)
         cursor = conn.cursor()
 
         query = """SELECT f.matricula, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
@@ -21,7 +22,7 @@ def execute(matricula):
         INNER JOIN situacao_ponto sp ON p.id_situacao_ponto =
         sp.id_situacao_ponto WHERE f.matricula = %s;"""
 
-        cursor.execute(query, (matricula,))  # A execução da query permanece igual
+        cursor.execute(query, (matricula,))
         result = cursor.fetchall()
 
         cursor.close()
