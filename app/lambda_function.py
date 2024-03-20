@@ -4,6 +4,7 @@ from app.src.point_query_use_case import execute
 
 def handler(event, context):
     print(context)
+    print(event)
     try:
         body = json.loads(event['body'])
     except json.JSONDecodeError:
