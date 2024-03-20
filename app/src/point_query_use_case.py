@@ -1,4 +1,4 @@
-from app.psycopg2 import connect
+import app.psycopg2 as psy
 import os
 from app.src.fetch_user_name_password import fetch_username_password
 
@@ -12,7 +12,7 @@ def execute(matricula):
             'password': password,
             'host': os.getenv('DB_HOST')
         }
-        conn = connect(**database)
+        conn = psy.connect(**database)
         cursor = conn.cursor()
 
         query = """SELECT f.matricula, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
