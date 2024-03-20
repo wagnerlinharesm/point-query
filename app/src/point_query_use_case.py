@@ -30,7 +30,7 @@ def execute(matricula):
         #
         # print(result)
 
-        return result
+        return "result"
     except Exception as e:
         print(f"Erro ao acessar banco de dados: {e}")
         return []
