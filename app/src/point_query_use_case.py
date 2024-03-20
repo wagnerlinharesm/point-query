@@ -1,18 +1,18 @@
 import os
 from app.src.fetch_user_name_password import fetch_username_password
-import mysql.connector
+import psycopg2
 
 
 def execute(matricula):
     try:
         username, password = fetch_username_password(os.getenv("DB_SECRET"))
         database = {
-            'database': 'pointdb',
+            'dbname': 'pointdb',
             'user': username,
             'password': password,
             'host': os.getenv('DB_HOST')
         }
-        conn = mysql.connector.connect(**database)
+        conn = psycopg2.connect(**database)
         cursor = conn.cursor()
 
         query = """SELECT f.matricula, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
