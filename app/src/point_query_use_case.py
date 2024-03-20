@@ -1,4 +1,4 @@
-from ..psycopg2 import connect
+from app.psycopg2 import connect
 import os
 from fetch_user_name_password import fetch_username_password
 
