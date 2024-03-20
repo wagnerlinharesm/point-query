@@ -1,7 +1,5 @@
 import os
 from app.src.fetch_user_name_password import fetch_username_password
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), 'app'))
 import psycopg2
 
 
