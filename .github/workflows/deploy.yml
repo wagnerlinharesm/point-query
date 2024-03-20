@@ -25,10 +25,7 @@ jobs:
 
       - name: Prepare Lambda package
         run: |
-          cp -r ./* ./package/
-          rm -rf ./package/package
-          rm -rf ./package/.git
-          rm -rf ./package/.github
+          rsync -av --progress ./* package --exclude package --exclude .git --exclude .github
           cd package
           zip -r ../lambda_function.zip .
 
