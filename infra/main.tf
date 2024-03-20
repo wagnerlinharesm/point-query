@@ -26,7 +26,7 @@ resource "aws_iam_role_policy" "point_query_policy" {
 resource "aws_lambda_function" "point_query_lambda_function" {
   function_name = "point_query"
   handler       = "app/lambda_function.handler"
-  runtime       = "python3.9"
+  runtime       = "python3.6"
   role          = aws_iam_role.point_query_iam_role.arn
 
   filename = "lambda_function.zip"
