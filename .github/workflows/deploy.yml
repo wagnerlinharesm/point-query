@@ -25,9 +25,9 @@ jobs:
 
       - name: Prepare Lambda package
         run: |
-          mkdir -p lambda_package
-          cp -R ./package/* lambda_package/
-          cp -r app/* lambda_package/
+          mkdir -p lambda_package/app
+          cp -R ./package/* lambda_package/app/
+          cp -r app/* lambda_package/app/
           cd lambda_package
           zip -r ../lambda_function.zip .
 
