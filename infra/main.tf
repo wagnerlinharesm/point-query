@@ -44,7 +44,7 @@ resource "aws_lambda_function" "point_query_lambda_function" {
 
   environment {
     variables = {
-      DB_HOST = "rdsproxy.proxy-cqivfynnpqib.us-east-2.rds.amazonaws.com",
+      DB_HOST = "point-db.cqivfynnpqib.us-east-2.rds.amazonaws.com",
       DB_SECRET = "mikes/db/db_credentials"
     }
   }
