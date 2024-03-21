@@ -19,7 +19,7 @@ def handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': {'message': f'{result}'}
+        'body': json.dumps({'message': f'{result}'}, default=str)
     }
 
 
