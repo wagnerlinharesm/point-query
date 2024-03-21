@@ -1,6 +1,7 @@
 import os
 from app.src.fetch_user_name_password import fetch_username_password
 import psycopg2
+import json
 
 
 def execute(id_funcionario):
@@ -13,7 +14,6 @@ def execute(id_funcionario):
             'host': os.getenv('DB_HOST')
         }
         conn = psycopg2.connect(**database)
-        print(conn)
         cursor = conn.cursor()
 
         query = """SELECT f.id_funcionario, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
@@ -26,11 +26,19 @@ def execute(id_funcionario):
         cursor.execute(query, (id_funcionario,))
         result = cursor.fetchall()
 
+        column_names = ["id_funcionario", "email", "data", "hora_entrada", "hora_saida",
+                        "horas_periodo", "horas_trabalhadas", "situacao"]
+
+        json_result = [
+            dict(zip(column_names, row))
+            for row in result
+        ]
+
         cursor.close()
         conn.close()
-        print(result)
-        return result
+
+        return json.dumps(json_result, default=str)
 
     except Exception as e:
-        print(f"Ocorreu um erro: {e}")
-        return None
+        print(f"Erro: {e}")
+        return []
