@@ -38,14 +38,25 @@ resource "aws_lambda_function" "point_query_lambda_function" {
 
   source_code_hash = filebase64sha256("lambda_function.zip")
 
+  vpc_config {
+    subnet_ids         = ["subnet-0ff65a2cef8cdbbdb", "subnet-0c9e1d22c842d362b", "subnet-08e43d2d7fa2c463e"]
+    security_group_ids = ["sg-01f81ec455ea45da9"]
+  }
+
   depends_on = [
     aws_iam_role.point_query_iam_role
   ]
 
   environment {
     variables = {
-      DB_HOST = "point-db.cqivfynnpqib.us-east-2.rds.amazonaws.com",
+      DB_HOST = "rdsproxy.proxy-cqivfynnpqib.us-east-2.rds.amazonaws.com",
       DB_SECRET = "mikes/db/db_credentials"
     }
   }
 }
+
+resource "aws_iam_role_policy_attachment" "point_report_ec2_iam_role_policy_attachment" {
+  role       = aws_iam_role.point_query_iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+}
+
