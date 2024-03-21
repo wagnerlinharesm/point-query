@@ -37,7 +37,7 @@ def execute(id_funcionario):
         cursor.close()
         conn.close()
 
-        return json_result
+        return json.dumps(json_result, default=str)
 
     except Exception as e:
         print(f"Erro: {e}")
