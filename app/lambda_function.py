@@ -5,6 +5,7 @@ from app.src.point_query_use_case import execute
 
 def handler(event, context):
     try:
+        print(event)
         username = extract_token(event)
         print(username)
         if not username:
