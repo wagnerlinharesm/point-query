@@ -20,7 +20,7 @@ def execute(id_funcionario):
                    INNER JOIN ponto p ON f.id_funcionario = p.id_funcionario
                    INNER JOIN periodo_ponto pp ON p.id_ponto = pp.id_ponto
                    INNER JOIN situacao_ponto sp ON p.id_situacao_ponto = sp.id_situacao_ponto
-                   WHERE f.id_funcionario = %s and p.data = NOW()
+                   WHERE f.id_funcionario = %s and p.data = current_date
                    ORDER BY pp.hora_entrada
                    ;"""
 
