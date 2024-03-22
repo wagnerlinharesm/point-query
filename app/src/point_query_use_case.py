@@ -14,6 +14,7 @@ def execute(id_funcionario):
             'host': os.getenv('DB_HOST')
         }
         conn = psycopg2.connect(**database)
+        print(conn)
         cursor = conn.cursor()
 
         query = """SELECT f.id_funcionario, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
