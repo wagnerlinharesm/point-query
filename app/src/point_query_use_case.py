@@ -28,9 +28,8 @@ def execute(id_funcionario):
         result = cursor.fetchall()
 
         if not result:
-            return json.dumps([])  # Retorna um array vazio caso não haja resultados
+            return json.dumps([])
 
-            # Assumindo que todos os registros de um dia compartilham a mesma data, horas_trabalhadas, e situação
         primeiro_registro = result[0]
         data, horas_trabalhadas, situacao = primeiro_registro[0], primeiro_registro[4], primeiro_registro[5]
 
@@ -54,8 +53,6 @@ def execute(id_funcionario):
 
         return json.dumps(json_result, default=str)
 
-        return json.dumps(json_result, default=str)
-
     except Exception as e:
         print(f"Erro: {e}")
-        return []
+        return json.dumps([])
