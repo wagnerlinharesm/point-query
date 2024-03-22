@@ -50,7 +50,8 @@ resource "aws_lambda_function" "point_query_lambda_function" {
   environment {
     variables = {
       DB_HOST = "rdsproxy.proxy-cqivfynnpqib.us-east-2.rds.amazonaws.com",
-      DB_SECRET = "mikes/db/db_credentials"
+      POINT_DB_USERNAME           = local.point_db_credentials["username"]
+      POINT_DB_PASSWORD           = local.point_db_credentials["password"]
     }
   }
 }
@@ -60,3 +61,19 @@ resource "aws_iam_role_policy_attachment" "point_report_ec2_iam_role_policy_atta
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
+data "aws_secretsmanager_secret" "point_db_secretsmanager_secret" {
+  name = var.point_db_secretsmanager_secret_name
+}
+
+data "aws_secretsmanager_secret_version" "point_db_secretsmanager_secret_version" {
+  secret_id = data.aws_secretsmanager_secret.point_db_secretsmanager_secret.id
+}
+
+locals {
+  point_db_credentials  = jsondecode(data.aws_secretsmanager_secret_version.point_db_secretsmanager_secret_version.secret_string)
+}
+
+variable "point_db_secretsmanager_secret_name" {
+  type    = string
+  default = "mikes/db/db_credentials"
+}

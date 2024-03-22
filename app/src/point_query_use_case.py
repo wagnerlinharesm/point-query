@@ -1,16 +1,14 @@
 import os
-from app.src.fetch_user_name_password import fetch_username_password
 import psycopg2
 import json
 
 
 def execute(id_funcionario):
     try:
-        username, password = fetch_username_password(os.getenv("DB_SECRET"))
         database = {
             'dbname': 'pointdb',
-            'user': username,
-            'password': password,
+            'user': os.getenv('POINT_DB_USERNAME'),
+            'password': os.getenv('POINT_DB_PASSWORD'),
             'host': os.getenv('DB_HOST')
         }
         conn = psycopg2.connect(**database)
