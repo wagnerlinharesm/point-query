@@ -27,16 +27,32 @@ def execute(id_funcionario):
         cursor.execute(query, (id_funcionario,))
         result = cursor.fetchall()
 
-        column_names = ["data", "hora_entrada", "hora_saida",
-                        "horas_periodo", "horas_trabalhadas", "situacao"]
+        if not result:
+            return json.dumps([])  # Retorna um array vazio caso não haja resultados
 
-        json_result = [
-            dict(zip(column_names, row))
-            for row in result
+            # Assumindo que todos os registros de um dia compartilham a mesma data, horas_trabalhadas, e situação
+        primeiro_registro = result[0]
+        data, horas_trabalhadas, situacao = primeiro_registro[0], primeiro_registro[4], primeiro_registro[5]
+
+        periodos = [
+            {
+                "entrada": registro[1],
+                "saida": registro[2],
+                "horas_periodo": registro[3]
+            } for registro in result
         ]
+
+        json_result = {
+            "data": data,
+            "horas_trabalhadas": horas_trabalhadas,
+            "status": situacao,
+            "periodos": periodos
+        }
 
         cursor.close()
         conn.close()
+
+        return json.dumps(json_result, default=str)
 
         return json.dumps(json_result, default=str)
 
