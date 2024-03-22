@@ -11,7 +11,7 @@ def fetch_username_password(secret_name):
         secret = response['SecretString']
 
         secret_dict = json.loads(secret)
-
+        print(secret_dict)
         return secret_dict['username'], secret_dict['password']
     except Exception as e:
         print(f"Error fetching secret {secret_name}: {e}")
