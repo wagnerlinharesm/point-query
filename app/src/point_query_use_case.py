@@ -15,12 +15,12 @@ def execute(id_funcionario):
         print(conn)
         cursor = conn.cursor()
 
-        query = """SELECT f.id_funcionario, f.email, p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
+        query = """SELECT p.data, pp.hora_entrada, pp.hora_saida, pp.horas_periodo,
                    p.horas_trabalhadas, sp.situacao FROM funcionario f
                    INNER JOIN ponto p ON f.id_funcionario = p.id_funcionario
                    INNER JOIN periodo_ponto pp ON p.id_ponto = pp.id_ponto
                    INNER JOIN situacao_ponto sp ON p.id_situacao_ponto = sp.id_situacao_ponto
-                   WHERE f.id_funcionario = %s;"""
+                   WHERE f.id_funcionario = %s and p.data = NOW();"""
 
         cursor.execute(query, (id_funcionario,))
         result = cursor.fetchall()
