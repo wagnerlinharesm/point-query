@@ -27,7 +27,7 @@ def execute(id_funcionario):
         cursor.execute(query, (id_funcionario,))
         result = cursor.fetchall()
 
-        column_names = ["id_funcionario", "email", "data", "hora_entrada", "hora_saida",
+        column_names = ["data", "hora_entrada", "hora_saida",
                         "horas_periodo", "horas_trabalhadas", "situacao"]
 
         json_result = [
